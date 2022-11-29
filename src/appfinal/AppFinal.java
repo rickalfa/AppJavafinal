@@ -33,6 +33,9 @@ public class AppFinal {
         ///ConUser.CreateUsuario("miguel", "introduci@email.com", "9834421", "pasaje gatemala");
         
         
+        String[] upDatesUser = {"PIlar", "correo@email.es", "calle nueva luz"};
+        String[] inDatesUser = {"estefania", "estefania@gmail.com", "calle marte", "8239128"};
+        
         
         datesuser = ConUser.getUsuario(1);
         
@@ -54,12 +57,22 @@ public class AppFinal {
            
             }
             
+            ConProv.update(1, upDatesUser);
+            
+            ConProv.insert(inDatesUser);
+            
+            //ConProv.delete(2);
+            
+            
         }catch(Exception e){
         
               System.out.println("\n No existe el usuario");
         
         }
  
+        
+        
+        
         
        new jFrameToplSubmenu().setVisible(true);
         

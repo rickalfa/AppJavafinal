@@ -171,18 +171,84 @@ public class ControllerProveedor extends CrudControllerAbs {
    }
 
     @Override
-    public int update(int index, String[][] datesuser) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public int update(int index, String[] datesuser) {
+        /*throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    */
+         String indexstr = String.valueOf(index);
+        
+         String query = "update proveedor set nombre='"+ datesuser[0]+"', email='"+ datesuser[1]+"', direccion='"+ datesuser[2]+"' where id_proveedor='"+indexstr+"' ";
+         String name = "";
+         
+         try{
+             
+           int resulqy = Conn.ejecutarQuery(query);
+           
+           return 1;
+           
+         }catch(Exception e)
+         {
+             
+             return 0;
+         }
+         
     }
 
     @Override
-    public int insert(String[][] datesuser) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public int insert(String[] datesuser) {
+   
+          String query_sql = "";
+        
+        try{
+            
+            query_sql = "insert into proveedor( `nombre`, `email`, `direccion`, `password`) values ('"+ datesuser[0] +"' ,'"+ datesuser[1] +"', '"+ datesuser[2] +"', '"+datesuser[3]+"') ";
+            
+            System.out.print(query_sql);
+            
+            int resulqy = Conn.ejecutarQuery(query_sql);
+              
+            String emailuser = String.valueOf(resulqy);
+            
+            System.out.print(" \n valor de retorno del metodo insert : "+emailuser + " \n");
+           
+            
+            return 1;
+            
+        }
+        catch(Exception e)
+        {
+            
+            System.out.print(e);
+            
+            return 0;
+            
+        }
+        
     }
 
     @Override
     public int delete(int index) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+   
+          String indexstr = String.valueOf(index);
+        
+        String querysql = "delete from proveedor where id_proveedor='"+indexstr+"' ";
+        
+        
+        try{
+        
+            Conn.ejecutarQuery(querysql);
+            
+            
+            return 1;
+        
+        }catch(Exception e){
+        
+            
+            System.out.println(e);
+            
+            return 0;
+        
+        }
+    
     }
     
     
