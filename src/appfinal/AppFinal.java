@@ -6,7 +6,10 @@ package appfinal;
 
 import Models.ModelConnbd;
 import Controllers.ControllerProveedor;
+import Controllers.ControllerUsuario;
 import Views.jFrameToplSubmenu;
+
+import java.util.Arrays;
 
 /**
  *
@@ -15,6 +18,7 @@ import Views.jFrameToplSubmenu;
 public class AppFinal {
 
     static ControllerProveedor ConProv;
+    static String[] datesuser;
     /**
      * @param args the command line arguments
      */
@@ -24,8 +28,38 @@ public class AppFinal {
         
         ModelConnbd Conn = new ModelConnbd();
         
+        ControllerUsuario ConUser = new ControllerUsuario();
+        
+        ///ConUser.CreateUsuario("miguel", "introduci@email.com", "9834421", "pasaje gatemala");
+        
+        
+        
+        datesuser = ConUser.getUsuario(1);
+        
+        System.out.print("nombre del usuario : " + datesuser[0]+ "\n");
+        
         String nombre_prov = ConProv.getDates();
-        System.out.print(nombre_prov + "\n");
+        System.out.print("\n nombre del Proveedor : "+ nombre_prov + "\n");
+        
+        try{
+            String[][] datesProvs = ConProv.get(1);
+            int lengArray = datesProvs.length;
+            int i = 0;
+        
+            for(i = 0; i < lengArray; i++){
+            
+            
+             String dateProv = Arrays.toString(datesProvs[i]);
+             System.out.println(dateProv);
+           
+            }
+            
+        }catch(Exception e){
+        
+              System.out.println("\n No existe el usuario");
+        
+        }
+ 
         
        new jFrameToplSubmenu().setVisible(true);
         
