@@ -17,8 +17,8 @@ import java.util.Arrays;
  */
 public class AppFinal {
 
-    static ControllerProveedor ConProv;
-    static String[] datesuser;
+    static ControllerUsuario ConProv;
+    static String[][] datesuser;
     
     public static void imprimirArrayGet(String[][] datesTable)
     {
@@ -38,25 +38,14 @@ public class AppFinal {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        ConProv = new ControllerProveedor();
+        ConProv = new ControllerUsuario();
         
-        ModelConnbd Conn = new ModelConnbd();
+       
         
-        ControllerUsuario ConUser = new ControllerUsuario();
+        String[] upDatesUser = {"sara", "sara@email.ur", "calle tres "};
+        String[] inDatesUser = {"raul", "gato@gatos.com", "8723812 ", "nueva calle", "14444428"};
         
-        ///ConUser.CreateUsuario("miguel", "introduci@email.com", "9834421", "pasaje gatemala");
-        
-        
-        String[] upDatesUser = {"maria", "maria@email.es", "calle nueva luz"};
-        String[] inDatesUser = {"raul", "gato@gatos.com", "nueva calle", "14444428"};
-        
-        
-        datesuser = ConUser.getUsuario(1);
-        
-        System.out.print("nombre del usuario : " + datesuser[0]+ "\n");
-        
-        String nombre_prov = ConProv.getDates();
-        System.out.print("\n nombre del Proveedor : "+ nombre_prov + "\n");
+   
         
         try{
             String[][] datesProvs = ConProv.get();
@@ -69,7 +58,7 @@ public class AppFinal {
              System.out.println("\n dates proveedor : " +dateProv);
        
             
-            //ConProv.update(4, upDatesUser);
+            ConProv.update(2, upDatesUser);
             
             //ConProv.insert(inDatesUser);
             
@@ -78,7 +67,7 @@ public class AppFinal {
             
         }catch(Exception e){
         
-              System.out.println("\n No existe el usuario");
+              System.out.println("\n Error en la peticion");
         
         }
  
