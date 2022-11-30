@@ -15,6 +15,7 @@ public abstract class CrudControllerAbs {
     public abstract int update(int index, String[] datesuser);
     public abstract int insert(String[] datesuser);
     public abstract int delete(int index);
+    public abstract void createquery(String[] columns, String[] datesUser);
     
     
     

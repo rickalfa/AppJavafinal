@@ -19,16 +19,20 @@ import Models.ModelConnbd;
 public class ControllerProveedor extends CrudControllerAbs {
 
 
-    
+    private String tablename;
     private String dates;
     private ModelConnbd Conn;
+    private String column_idname = "id_proveedor";
+    private String[] columns= {"id_proveedor","nombre", "email", "direccion", "password"}; ;
+    private String newquery_sql = "";
     
     public ControllerProveedor()
     {
         
         
        Conn = new ModelConnbd();
-        
+       tablename = "proveedor";
+       
         
     }
     
@@ -38,7 +42,7 @@ public class ControllerProveedor extends CrudControllerAbs {
     public String getDates() 
     {
         
-        String query = "Select * from proveedor";
+        String query = "Select * from "+ tablename +"";
          String name = "";
         ResultSet resulqy = Conn.ejecutarQueryResult(query);
         
@@ -68,9 +72,13 @@ public class ControllerProveedor extends CrudControllerAbs {
     @Override
     public String[][] get(int index) {
     
-    String query = "Select * from proveedor where id_proveedor='"+index+"'";
-    String[][] datesuser = new String[1][3]; 
+    String query = "Select * from "+ tablename +" where "+column_idname+"='"+index+"'";
+    
+    int count_columns = this.columns.length;
+    
+    String[][] datesuser = new String[1][count_columns]; 
     int i = 0;
+    int count = 0;
             
         try{
             
@@ -83,10 +91,16 @@ public class ControllerProveedor extends CrudControllerAbs {
             while(resulqy.next())
             {
                 
-               datesuser[i][0] =  resulqy.getString("nombre");
-               datesuser[i][1] =  resulqy.getString("email");
-               datesuser[i][2] =  resulqy.getString("direccion");
+               //datesuser[i][0] =  resulqy.getString("nombre");
+               //datesuser[i][1] =  resulqy.getString("email");
+               //datesuser[i][2] =  resulqy.getString("direccion");
         
+               for(count = 0; count < count_columns; count++){
+               
+                      datesuser[i][count] =  resulqy.getString(this.columns[count]);
+               
+               }
+               
                i++;
                
             }
@@ -116,8 +130,12 @@ public class ControllerProveedor extends CrudControllerAbs {
     @Override
     public String[][] get() {
         
-        String query = "Select * from proveedor";
+        String query = "Select * from "+ tablename +"";
+        
+        int count_columns = this.columns.length;
+        
         String name = "";
+        int count = 0;
         String[][] datesuser = new String[20][5];
        
         int i = 0;
@@ -135,24 +153,37 @@ public class ControllerProveedor extends CrudControllerAbs {
             while(resulqy.next())
             {
                 
-               datesuser[i][0] =  resulqy.getString("nombre");
-               datesuser[i][1] =  resulqy.getString("email");
-               datesuser[i][2] =  resulqy.getString("direccion");
+              // datesuser[i][0] =  resulqy.getString("nombre");
+              // datesuser[i][1] =  resulqy.getString("email");
+               //datesuser[i][2] =  resulqy.getString("direccion");
         
+                for(count = 0; count < count_columns; count++){
+               
+                     datesuser[i][count] =  resulqy.getString(this.columns[count]);
+               
+                }
+                
                i++;
                
             }
-             System.out.print(" \n valor de i : ");
+             System.out.print(" \n valor de i : \n");
             System.out.print(i );
             
-            String[][] datesResult= new String[i][3];
+            String[][] datesResult= new String[i][count_columns];
             
-             int count = 0;
+             int count02 = 0;
             
              for(count = 0; count < i; count++){
-                 datesResult[count][0] = datesuser[count][0];
-                 datesResult[count][1] = datesuser[count][1];
-                 datesResult[count][2] = datesuser[count][2];
+                 
+                 //datesResult[count][0] = datesuser[count][0];
+                 //datesResult[count][1] = datesuser[count][1];
+                 // datesResult[count][2] = datesuser[count][2];
+                 
+                 for(count02 = 0; count02 < count_columns; count02++){
+                  datesResult[count][count02] = datesuser[count][count02];
+                     
+                 }
+                 
             
                  System.out.print(" \n"+ datesResult[count][0] +" \n");
               }
@@ -172,16 +203,39 @@ public class ControllerProveedor extends CrudControllerAbs {
 
     @Override
     public int update(int index, String[] datesuser) {
-        /*throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    */
-         String indexstr = String.valueOf(index);
+
+        int count02 = 0;
+        String create_query = "";
+        int length_array_dates = datesuser.length;
+        String[] datesUser = datesuser;
         
-         String query = "update proveedor set nombre='"+ datesuser[0]+"', email='"+ datesuser[1]+"', direccion='"+ datesuser[2]+"' where id_proveedor='"+indexstr+"' ";
+         String indexstr = String.valueOf(index);
+         
+                   /**
+           * Creacion de la query parte de los datos SET en query UPDATE
+           */
+          for(count02 = 0; count02 < length_array_dates; count02++)
+          {
+              
+              if(count02 == (length_array_dates - 1))
+              {
+                  create_query += this.columns[count02]+"='"+datesUser[count02]+"'";
+              }else{
+                  create_query += this.columns[count02]+"='"+datesUser[count02]+"', ";
+              }
+              
+          }
+          
+          create_query = "update "+ tablename +" set "+ create_query+" where "+this.column_idname+"='"+indexstr+"' ";
+          
+          System.out.print(" nueva query update : "+create_query);
+        
+         //String query = "update "+ tablename +" set nombre='"+ datesuser[0]+"', email='"+ datesuser[1]+"', direccion='"+ datesuser[2]+"' where id_proveedor='"+indexstr+"' ";
          String name = "";
          
          try{
              
-           int resulqy = Conn.ejecutarQuery(query);
+           int resulqy = Conn.ejecutarQuery(create_query);
            
            return 1;
            
@@ -198,13 +252,23 @@ public class ControllerProveedor extends CrudControllerAbs {
    
           String query_sql = "";
         
+          String create_query = "";
+          
+         
+          createquery(this.columns,datesuser);
+           
+           //System.out.print("\n query creada de columnas : "+ query_sql + "\n");
+           //System.out.print("\n query creada de dates : "+ create_query + "\n");
+           //System.out.println(length_array_dates);
+          
+           
+            System.out.print("\n nueva query generada : "+newquery_sql + "\n");
+          
         try{
-            
-            query_sql = "insert into proveedor( `nombre`, `email`, `direccion`, `password`) values ('"+ datesuser[0] +"' ,'"+ datesuser[1] +"', '"+ datesuser[2] +"', '"+datesuser[3]+"') ";
             
             System.out.print(query_sql);
             
-            int resulqy = Conn.ejecutarQuery(query_sql);
+            int resulqy = Conn.ejecutarQuery(newquery_sql);
               
             String emailuser = String.valueOf(resulqy);
             
@@ -230,7 +294,7 @@ public class ControllerProveedor extends CrudControllerAbs {
    
           String indexstr = String.valueOf(index);
         
-        String querysql = "delete from proveedor where id_proveedor='"+indexstr+"' ";
+        String querysql = "delete from "+ tablename +" where "+column_idname+"='"+indexstr+"' ";
         
         
         try{
@@ -248,6 +312,58 @@ public class ControllerProveedor extends CrudControllerAbs {
             return 0;
         
         }
+    
+    }
+
+    @Override
+    public void createquery(String[] columns, String[] datesUser) {
+  
+          String query_sql = "";
+        
+          String create_query = "";
+          
+         int length_array = columns.length;
+          int length_array_dates = datesUser.length;
+          int count = 0;
+          int count02 = 0; 
+          
+          /**
+           *Creacion de la query parte de los nombres de las columnas 
+           *
+           */
+          for(count = 0; count < length_array; count++)
+          {
+              
+              if(count == (length_array - 1))
+              {
+                  query_sql += "`"+columns[count]+"`";
+              }else{
+                  query_sql += "`"+columns[count]+"`, ";
+              }
+              
+          }
+          
+          query_sql = "("+ query_sql+")";
+          
+          
+          /**
+           * Creacion de la query parte de los datos SET en query UPDATE
+           */
+          for(count02 = 0; count02 < length_array_dates; count02++)
+          {
+              
+              if(count02 == (length_array_dates - 1))
+              {
+                  create_query += "'"+datesUser[count02]+"'";
+              }else{
+                  create_query += "'"+datesUser[count02]+"', ";
+              }
+              
+          }
+          
+          create_query = "("+ create_query+")";
+          
+           this.newquery_sql = "insert into "+ tablename +query_sql +" values "+ create_query;
     
     }
     

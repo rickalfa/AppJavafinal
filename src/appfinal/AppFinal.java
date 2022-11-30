@@ -19,6 +19,20 @@ public class AppFinal {
 
     static ControllerProveedor ConProv;
     static String[] datesuser;
+    
+    public static void imprimirArrayGet(String[][] datesTable)
+    {
+        String contenido_array = "";
+        int quantity_row = datesTable.length;
+        
+        for(int i = 0; i < quantity_row; i++){
+        
+            contenido_array = Arrays.toString(datesTable[i]);
+            System.out.println(contenido_array);
+        }
+        
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -33,8 +47,8 @@ public class AppFinal {
         ///ConUser.CreateUsuario("miguel", "introduci@email.com", "9834421", "pasaje gatemala");
         
         
-        String[] upDatesUser = {"PIlar", "correo@email.es", "calle nueva luz"};
-        String[] inDatesUser = {"estefania", "estefania@gmail.com", "calle marte", "8239128"};
+        String[] upDatesUser = {"maria", "maria@email.es", "calle nueva luz"};
+        String[] inDatesUser = {"raul", "gato@gatos.com", "nueva calle", "14444428"};
         
         
         datesuser = ConUser.getUsuario(1);
@@ -45,23 +59,21 @@ public class AppFinal {
         System.out.print("\n nombre del Proveedor : "+ nombre_prov + "\n");
         
         try{
-            String[][] datesProvs = ConProv.get(1);
-            int lengArray = datesProvs.length;
+            String[][] datesProvs = ConProv.get();
+            int lengArray = datesProvs[0].length;
             int i = 0;
-        
-            for(i = 0; i < lengArray; i++){
+               
+            imprimirArrayGet(datesProvs);
             
+             String dateProv = Arrays.toString(datesProvs[0]);
+             System.out.println("\n dates proveedor : " +dateProv);
+       
             
-             String dateProv = Arrays.toString(datesProvs[i]);
-             System.out.println(dateProv);
-           
-            }
+            //ConProv.update(4, upDatesUser);
             
-            ConProv.update(1, upDatesUser);
+            //ConProv.insert(inDatesUser);
             
-            ConProv.insert(inDatesUser);
-            
-            //ConProv.delete(2);
+            //ConProv.delete(6);
             
             
         }catch(Exception e){
@@ -71,8 +83,7 @@ public class AppFinal {
         }
  
         
-        
-        
+       
         
        new jFrameToplSubmenu().setVisible(true);
         
